@@ -99,6 +99,10 @@ void BasicOscillatorAudioProcessor::prepareToPlay (double sampleRate, int sample
     spec.numChannels = getTotalNumInputChannels();
     
     osc.prepare(spec);
+    gain.prepare(spec);
+    
+    osc.setFrequency(220.0f);
+    gain.setGainLinear(0.01f);
 }
 
 void BasicOscillatorAudioProcessor::releaseResources()
@@ -146,6 +150,7 @@ void BasicOscillatorAudioProcessor::processBlock (juce::AudioBuffer<float>& buff
   
     juce::dsp::AudioBlock<float> audioBlock {buffer};
     osc.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
+    gain.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
 }
 
 //==============================================================================
